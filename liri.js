@@ -21,7 +21,7 @@ if (userInput === "my-tweets") {
 	if (error) {
 		console.log(error);
 	}
-  if (!error && response.statusCode == 200) {
+  if (!error && response.statusCode === 200) {
 	  for (i=0; i<tweets.length; i++) {
 	    console.log(tweets[i].text);
       }
@@ -29,18 +29,20 @@ if (userInput === "my-tweets") {
   });
 }
 
+
 if (userInput === "spotify-this-song") {
-  var songname = "Ace of Base The Sign";
-  spotify.search({ type: 'track', query: songname, limit: 1}, function(error, data, response) {
+  var songTitle = process.argv[3];
+  if (songTitle === undefined) {
+    songTitle = "Ace of Base The Sign"
+  }
+  spotify.search({ type: 'track', query: songTitle, limit: 1}, function(error, data, response) {
       if (error) {
         console.log(error);
       }
-      if (!error) {
         console.log("Artist: " + data.tracks.items[0].artists[0].name);
         console.log("Song Name: " + data.tracks.items[0].name);
         console.log("Preview link: " + data.tracks.items[0].preview_url);
         console.log("The album is: " + data.tracks.items[0].album.name);
-      }
     });
   }
 
