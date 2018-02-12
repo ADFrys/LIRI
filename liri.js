@@ -29,10 +29,20 @@ if (userInput === "my-tweets") {
   });
 }
 
-
 if (userInput === "spotify-this-song") {
-  var songTitle = process.argv[3];
-  if (songTitle === undefined) {
+  var songTitleInput = process.argv;
+  var songTitle = "";
+  for (var j = 3; j < songTitleInput.length; j++) {
+
+  if (j > 3 && j < songTitleInput.length) {
+    songTitle = songTitle + "+" + songTitleInput[j];
+  }
+  else {
+    songTitle += songTitleInput[j];
+  }
+}
+
+  if (songTitle === "") {
     songTitle = "Ace of Base The Sign"
   }
   spotify.search({ type: 'track', query: songTitle, limit: 1}, function(error, data, response) {
