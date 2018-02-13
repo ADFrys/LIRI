@@ -9,7 +9,7 @@ var client = new Twitter(keys.twitter);
 var Spotify = require('node-spotify-api');
 var spotify = new Spotify(keys.spotify);
 
-// var random = require("./random.txt");
+var random = require("./random.txt");
 
 var fs = require("fs");
 
@@ -85,6 +85,27 @@ if (movieTitle === "") {
       console.log("The actors are: " + JSON.parse(body).Actors);
     }
   });
+}
+
+if (userInput === "do-what-it-says") {
+  fs.readFile("random.txt", "utf8", function(error, data) {
+
+  if (error) {
+    return console.log(error);
+  }
+  var dataArray = data.split(",");
+  if (dataArray[0] === "spotify-this-song") {
+  	console.log(dataArray[1]);
+  }
+  if (dataArray[0] === "movie-this") {
+  	console.log(dataArray[1]);
+
+  }
+
+
+  })
+
+
 }
 
 
