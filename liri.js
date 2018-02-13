@@ -1,4 +1,4 @@
-// 
+
 require("dotenv").config();
 var keys = require("./keys.js");
 var request = require("request");
@@ -43,7 +43,7 @@ if (userInput === "spotify-this-song") {
 }
 
   if (songTitle === "") {
-    songTitle = "Ace of Base The Sign"
+    songTitle = "Ace of Base The Sign";
   }
   spotify.search({ type: 'track', query: songTitle, limit: 1}, function(error, data, response) {
       if (error) {
@@ -56,12 +56,36 @@ if (userInput === "spotify-this-song") {
     });
   }
 
-// var queryUrl = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&apikey=trilogy";
-// request("http://www.omdbapi.com/?t=remember+the+titans&y=&plot=short&apikey=trilogy", function(error, response, body) {
+if (userInput === "movie-this") {
+  var movieInput = process.argv;
+  var movieTitle = "";
+  for (var k = 3; k < movieInput.length; k++) {
 
-//   // If the request is successful (i.e. if the response status code is 200)
-//   if (!error && response.statusCode === 200) {
+  if (k > 3 && k < movieInput.length) {
+    movieTitle = movieTitle + "+" + movieInput[k];
+  }
+  else {
+    movieTitle += movieInput[k];
+  }
+}
 
-//     console.log("The movie's rating is: " + JSON.parse(body).imdbRating);
-//   }
+if (movieTitle === "") {
+  movieTitle = "Mr. Nobody";
+}
+  var movieURL = "http://www.omdbapi.com/?t=" + movieTitle + "&y=&plot=short&apikey=trilogy";
+  request(movieURL, function (error, response, body) {
+    if (!error && response.statusCode ===200) {
+      console.log("The movie title is: " + JSON.parse(body).Title);
+      console.log("The year the movie came out is " + JSON.parse(body).Year);
+      console.log("The IMDB Rating of the movie is " + JSON.parse(body).imdbRating);
+      console.log("The Rotten Tomatoes Rating of the movie is " + JSON.parse(body).Ratings[1].Value);
+      console.log("The country/countries where the movie was produced is: " + JSON.parse(body).Country);
+      console.log("The language(s) of the movie is/are: " + JSON.parse(body).Language);
+      console.log("The plot is: " + JSON.parse(body).Plot);
+      console.log("The actors are: " + JSON.parse(body).Actors);
+    }
+  });
+}
+
+
 
