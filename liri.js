@@ -25,10 +25,12 @@ spotify.search({ type: 'track', query: songTitle, limit: 1}, function(error, dat
   if (error) {
     console.log(error);
     }
-  console.log("Artist: " + data.tracks.items[0].artists[0].name);
-  console.log("Song Name: " + data.tracks.items[0].name);
-  console.log("Preview link: " + data.tracks.items[0].preview_url);
-  console.log("The album is: " + data.tracks.items[0].album.name);
+  else {
+    console.log("Artist: " + data.tracks.items[0].artists[0].name);
+    console.log("Song Name: " + data.tracks.items[0].name);
+    console.log("Preview link: " + data.tracks.items[0].preview_url);
+    console.log("The album is: " + data.tracks.items[0].album.name);
+    }
   });
 }
 
@@ -63,106 +65,115 @@ if (movieTitle === "") {
 var obtainTweets = function () {
   client.get('https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=alliasAngela', function(error, tweets, response) {
 
-    if (error) {
-	    console.log(error);
-	  }
-
     if (!error && response.statusCode === 200) {
-	    for (i=0; i<tweets.length; i++) {
-	      console.log("Tweet: " + tweets[i].text + " Written on: " + tweets[i].created_at);
+	  for (i=0; i<tweets.length; i++) {
+	    console.log("Tweet: " + tweets[i].text + " Written on: " + tweets[i].created_at);
+        }
       }
-    }
+    else {
+	  console.log(error);
+	}
   });
 }
 
-// If-statement logic for LIRI text commands
-
-if (userInput === "my-tweets") {
-  obtainTweets();
+// Define function for invalid input
+function invalidInput() {
+  console.log("This is not a valid LIRI command. Please enter one of the following commands: my-tweets, spotify-this-song song name, movie-this movie name, do-what-it-says. For example, 'node liri.js movie-this The Wizard of Oz'");
 }
 
-if (userInput === "spotify-this-song") {
-  var songTitleInput = process.argv;
-  var songTitle = "";
-  for (var j = 3; j < songTitleInput.length; j++) {
+// If-statement logic stored in a function for LIRI text commands
 
-    if (j > 3 && j < songTitleInput.length) {
-      songTitle = songTitle + "+" + songTitleInput[j];
-    }
-    else {
-      songTitle += songTitleInput[j];
-    }
-  }  
-  songInformation(songTitleInput, songTitle);
-  console.log(songTitle);
-}
+function runLiri() {
 
-
-if (userInput === "movie-this") {
-  var movieInput = process.argv;
-  var movieTitle = "";
-  for (var k = 3; k < movieInput.length; k++) {
-
-    if (k > 3 && k < movieInput.length) {
-      movieTitle = movieTitle + "+" + movieInput[k];
+  if (userInput === "my-tweets") {
+    obtainTweets();
     }
-    else {
-      movieTitle += movieInput[k];
-    }
+
+  if (userInput === "spotify-this-song") {
+    var songTitleInput = process.argv;
+    var songTitle = "";
+    for (var j = 3; j < songTitleInput.length; j++) {
+
+      if (j > 3 && j < songTitleInput.length) {
+        songTitle = songTitle + "+" + songTitleInput[j];
+        }
+      else {
+        songTitle += songTitleInput[j];
+        }
+      }   
+    songInformation(songTitleInput, songTitle);
+    console.log(songTitle);
   }
 
-  console.log(movieTitle);
-  movieInformation(movieInput, movieTitle);
-}
+
+  if (userInput === "movie-this") {
+    var movieInput = process.argv;
+    var movieTitle = "";
+    for (var k = 3; k < movieInput.length; k++) {
+
+      if (k > 3 && k < movieInput.length) {
+        movieTitle = movieTitle + "+" + movieInput[k];
+      }
+      else {
+        movieTitle += movieInput[k];
+      }
+    }
+
+    console.log(movieTitle);
+    movieInformation(movieInput, movieTitle);
+  }
 
 // Do what it says logic
 
-if (userInput === "do-what-it-says") {
-  fs.readFile("random.txt", "utf8", function(error, data) {
+  if (userInput === "do-what-it-says") {
+    fs.readFile("random.txt", "utf8", function(error, data) {
 
-  if (error) {
-    return console.log(error);
+    if (error) {
+      return console.log(error);
+    }
+
+    else {
+      var dataArray = data.split(",");
+
+      if (dataArray[0] === "spotify-this-song") {
+        var songTitleInput = dataArray[1];
+        var songTitle = "";
+        for (var j = 0; j < songTitleInput.length; j++) {
+
+          if (j > 0 && j < songTitleInput.length) {
+            songTitle = songTitle + songTitleInput[j];
+          }
+          else {
+            songTitle += songTitleInput[j];
+          }
+        }  
+        console.log(songTitle);
+        songInformation(songTitleInput, songTitle);
+      }
+
+        if (dataArray[0] === "movie-this") {
+  	      var movieInput = dataArray[1];
+  	      var movieTitle = "";
+          for (var k = 0; k < movieInput.length; k++) {
+
+            if (k > 0 && k < movieInput.length) {
+              movieTitle = movieTitle + movieInput[k];
+            }
+            else {
+              movieTitle += movieInput[k];
+            }
+          }
+        }
+      
+        if (dataArray[0] ==="my-tweets") {
+          obtainTweets();
+        }
+      }
+    })
   }
-
-  else {
-    var dataArray = data.split(",");
-
-    if (dataArray[0] === "spotify-this-song") {
-      var songTitleInput = dataArray[1];
-      var songTitle = "";
-      for (var j = 0; j < songTitleInput.length; j++) {
-
-        if (j > 0 && j < songTitleInput.length) {
-          songTitle = songTitle + songTitleInput[j];
-        }
-        else {
-          songTitle += songTitleInput[j];
-        }
-      }  
-      console.log(songTitle);
-      songInformation(songTitleInput, songTitle);
-    }
-
-    if (dataArray[0] === "movie-this") {
-  	  var movieInput = dataArray[1];
-  	  var movieTitle = "";
-      for (var k = 0; k < movieInput.length; k++) {
-
-        if (k > 0 && k < movieInput.length) {
-          movieTitle = movieTitle + movieInput[k];
-        }
-        else {
-          movieTitle += movieInput[k];
-        }
-      }
-
-      console.log(movieTitle);
-      movieInformation(movieInput, movieTitle);
-      }
-
-      if (dataArray[0] ==="my-tweets") {
-        obtainTweets();
-      }
-    }
-  });
+  // else {
+  //   invalidInput();  	
+  // }
 };
+
+runLiri();
