@@ -4,7 +4,7 @@
 
 *LIRI does the following...*
 
-* Shows last 20 tweets :bird:
+* Shows last 20 tweets and the date/time of the tweet :bird:
 	* Execute this by typing "node liri.js my-tweets" in the command line 
 
 * Retrieves Spotify information when a song name is typed in :musical_note:
