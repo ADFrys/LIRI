@@ -10,10 +10,10 @@
 * Retrieves Spotify information when a song name is typed in :musical_note:
 	* Execute this by typing "node liri.js spotify-this-song  song name"
 
-* Retrieves detailed movie information when a movie title is typed :video_camera:
+* Retrieves detailed movie information when a movie title is typed :clapper:
 	* Execute this by typing "node liri.js movie-this movie title"
 
-* LIRI will 'read' and execute text written in the .txt file :microphone:
+* LIRI will 'read' and execute text written in the .txt file :pencil:
 	* Execute this by typing "node liri.js do-what-it-says"
 
 - If you want to clone this repo and run it, you will need to create your own .env file for it to work. The .env file contains the Twitter API keys and Spotify API keys.
