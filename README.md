@@ -8,10 +8,10 @@
 	* Execute this by typing "node liri.js my-tweets" in the command line 
 
 * Retrieves Spotify information when a song name is typed in :musical_note:
-	* Execute this by typing "node liri.js spotify-this-song  song name"
+	* Execute this by typing "node liri.js spotify-this-song *song name*"
 
 * Retrieves detailed movie information when a movie title is typed :clapper:
-	* Execute this by typing "node liri.js movie-this movie title"
+	* Execute this by typing "node liri.js movie-this *movie title*"
 
 * LIRI will 'read' and execute text written in the .txt file :pencil2:
 	* Execute this by typing "node liri.js do-what-it-says"
