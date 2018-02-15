@@ -45,7 +45,6 @@ if (movieTitle === "") {
   var movieURL = "http://www.omdbapi.com/?t=" + movieTitle + "&y=&plot=short&apikey=trilogy";
   request(movieURL, function (error, response, body) {
     if (!error && response.statusCode ===200) {
-      console.log(response);
       console.log("The movie title is: " + JSON.parse(body).Title);
       console.log("The year the movie came out is " + JSON.parse(body).Year);
       console.log("The IMDB Rating of the movie is " + JSON.parse(body).imdbRating);
@@ -53,10 +52,13 @@ if (movieTitle === "") {
       console.log("The language(s) of the movie is/are: " + JSON.parse(body).Language);
       console.log("The plot is: " + JSON.parse(body).Plot);
       console.log("The actors are: " + JSON.parse(body).Actors);
-      console.log("The Rotten Tomatoes Rating of the movie is " + JSON.parse(body).Ratings[1].Value);
-    }
+      if (JSON.parse(body).Ratings[1] === undefined) {
+      	console.log("There is not a Rotten Tomatoes rating for this movie.")
+      	return;
+      }
     else {
       return error;
+      }
     }
   });
 }
